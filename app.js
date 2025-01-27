@@ -15,13 +15,20 @@ const directionalLight = new THREE.DirectionalLight('white', 3);
 directionalLight.position.y = 4;
 directionalLight.position.z = 4;
 directionalLight.position.x = 3;
+
+directionalLight.shadow.radius = 10;
+
 directionalLight.castShadow = true;
 scene.add(directionalLight);
+
+directionalLight.shadow.mapSize.width = 1024;
+directionalLight.shadow.mapSize.height = 1024;
 
 const Plane = new THREE.PlaneGeometry(20, 20, 1);
 const PlaneMaterial = new THREE.MeshStandardMaterial({ color: 'white' });
 const PlaneMesh = new THREE.Mesh(Plane, PlaneMaterial);
 PlaneMesh.rotation.x = -Math.PI / 2;
+
 PlaneMesh.receiveShadow = true;
 scene.add(PlaneMesh);
 
@@ -50,15 +57,9 @@ function tick() {
 
   const elapsedTime = clock.getElapsedTime();
 
-  // camera.position.x = center.x + radius * Math.cos(elapsedTime);
-  // camera.position.z = center.z + radius * Math.sin(elapsedTime);
-  // camera.position.y = 5;
-
   directionalLight.position.x = center.x + radius * Math.cos(elapsedTime);
   directionalLight.position.z = center.z + radius * Math.sin(elapsedTime);
   directionalLight.position.y = 5;
-
-  camera.lookAt(center);
 
   window.requestAnimationFrame(tick);
   renderer.render(scene, camera);
